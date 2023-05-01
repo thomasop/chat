@@ -1,0 +1,28 @@
+// Style for LoginForm component
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    &__inputText {
+        margin-bottom: 10px;
+        padding: 5px;
+        border-radius: 5px;
+        border: none;
+    }
+    &__inputPassword {
+        padding: 5px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: none;
+    }
+    &__inputSubmit {
+        padding: 10px;
+        margin-top: 10px;
+        font-size: 16px;
+        border: none;
+        color: white;
+        background-color: blue;
+        border-radius: 10px;
+        margin-bottom: 40px;
+    }
+}
