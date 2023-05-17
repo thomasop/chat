@@ -2,14 +2,8 @@
 
 /* Mixins for responsive device */
 
-@mixin tablette {
-    @media screen and (min-width: map-get($break, tablette)) {
-        @content
-    }
-}
-
-@mixin desktop {
-    @media screen and (min-width: map-get($break, desktop)) {
+@mixin desktopmini {
+    @media screen and (min-width: map-get($break, desktopwidth)) and (min-height: map-get($break, desktopheight)) {
         @content
     }
 }

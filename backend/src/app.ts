@@ -1,13 +1,26 @@
 import express from "express"
-import Login from "./routes/Login.js"
-import connect from "./database/connect.js"
 import bodyParser from "body-parser"
 import cors from "cors"
+import cookieParser from "cookie-parser"
+import dotenv from 'dotenv'
+import conversationRouter from "./routes/Conversation.js"
+import messageRouter from "./routes/Message.js"
+import session from "express-session"
+import userRouter from "./routes/User.js"
+dotenv.config()
 
 let app = express()
+
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
+app.use(cookieParser(process.env.SECRET_COOKIE))
+/* app.use(session({
+    secret: process.env.SECRET_COOKIE!,
+  })) */
 
-Login(app, connect)
+app.use('/user', userRouter);
+app.use('/conversation', conversationRouter);
+app.use('/message', messageRouter);
+
 export default app
