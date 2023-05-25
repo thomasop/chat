@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-const CheckUserLog: React.FC = () => {
+/**
+ * React component - Check if user is log with cookie
+ * @return {null}
+ */
+const CheckUserLog = (): null => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 

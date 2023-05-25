@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import HandleSubmit from "./HandleSubmit";
 
-const LoginForm: React.FC = () => {
+/**
+ * React component - Login form
+ * @return {JSX.Element}
+ */
+const LoginForm = (): JSX.Element => {
   const [formSend, setFormSend] = useState(false);
   const [inputText, setInputText] = useState<string>("");
   const [inputPassword, setInputPassword] = useState<string>("");
@@ -69,9 +73,9 @@ const LoginForm: React.FC = () => {
     <>
       {formSend === true && (
         <HandleSubmit
-          email={inputText}
-          password={inputPassword}
-          errorMessage={setInputErrorPassword}
+          inputText={inputText}
+          inputPassword={inputPassword}
+          setInputErrorPassword={setInputErrorPassword}
           setFormSend={setFormSend}
         />
       )}

@@ -2,8 +2,8 @@
 
 /* Mixins for responsive device */
 
-@mixin desktopmini {
-    @media screen and (min-width: map-get($break, desktopwidth)) and (min-height: map-get($break, desktopheight)) {
+@mixin mobile {
+    @media screen and (max-width: map-get($break, mobilewidth)) {
         @content
     }
 }

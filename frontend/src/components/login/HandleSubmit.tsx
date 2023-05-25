@@ -1,15 +1,29 @@
-import React, { useEffect } from "react";
+import React, { Dispatch, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { DataHandlerSubmit } from "../../types/data/DataType";
 
-interface Data {
-  type: string;
-  value: string;
-  msg: string;
-  path: string;
-  location: string;
+interface Proptype {
+  inputText: string;
+  inputPassword: string;
+  setInputErrorPassword: Dispatch<React.SetStateAction<string>>;
+  setFormSend: Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HandleSubmit: React.FC<any> = (props) => {
+/**
+ * React component - Handler when login form is submit
+ * @param {Proptype} Props
+ * @param {string} Props.inputText - store input email from form and send in API
+ * @param {string} Props.inputPassword - store input password from form and send in API
+ * @param {Dispatch<React.SetStateAction<string>>} Props.setInputErrorPassword - if API return error then display error message in form
+ * @param {Dispatch<React.SetStateAction<boolean>>} Props.setFormSend - if API return error then cancel submit form
+ * @return {null}
+ */
+const HandleSubmit = ({
+  inputText,
+  inputPassword,
+  setInputErrorPassword,
+  setFormSend,
+}: Proptype): null => {
   let navigate = useNavigate();
   useEffect(() => {
     const getUser = async () => {
@@ -21,15 +35,15 @@ const HandleSubmit: React.FC<any> = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: props.email,
-          password: props.password,
+          email: inputText,
+          password: inputPassword,
         }),
       });
       let json = await response.json();
       if (json.errors) {
-        props.setFormSend(false);
+        setFormSend(false);
         if (typeof json.errors == "object") {
-          json.errors.map((error: Data, index: number) => {
+          json.errors.map((error: DataHandlerSubmit, index: number) => {
             let input: HTMLElement = document.querySelector("." + error.path)!;
             if (input) {
               input.style.display = "block";
@@ -50,14 +64,14 @@ const HandleSubmit: React.FC<any> = (props) => {
             htmlElementDiv.style.display = "block";
           }
 
-          props.errorMessage(json.errors);
+          setInputErrorPassword(json.errors);
         }
       } else {
         navigate("/home");
       }
     };
     getUser();
-  }, [navigate, props]);
+  }, [inputPassword, inputText, navigate, setFormSend, setInputErrorPassword]);
 
   return null;
 };

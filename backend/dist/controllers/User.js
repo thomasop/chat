@@ -11,7 +11,7 @@ import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 const generateAccessToken = (user) => {
     return jwt.sign({ mail: user }, process.env.SECRET_TOKEN);
@@ -30,13 +30,37 @@ const Login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const compare = () => __awaiter(void 0, void 0, void 0, function* () {
             const comp = yield bcrypt.compare(req.body.password, user === null || user === void 0 ? void 0 : user.dataValues.password);
             if (comp == false) {
-                return res.status(400).json({ errors: "Mauvaise combinaison email/password" });
+                return res
+                    .status(400)
+                    .json({ errors: "Mauvaise combinaison email/password" });
             }
             else {
+                const updateUser = yield User.update({ status: true }, {
+                    where: {
+                        id: user.dataValues.id,
+                    },
+                });
                 const accessToken = generateAccessToken(req.body.email);
-                const userLogin = { id: user.dataValues.id, firstname: user.dataValues.firstname, lastname: user.dataValues.lastname, mail: user.dataValues.mail };
-                res.cookie('userId', user.dataValues.id, { maxAge: 900000, secure: false, httpOnly: false, path: '/' });
-                res.cookie('token', accessToken, { maxAge: 900000, secure: false, httpOnly: false, path: '/' });
+                const userLogin = {
+                    id: user.dataValues.id,
+                    firstname: user.dataValues.firstname,
+                    lastname: user.dataValues.lastname,
+                    mail: user.dataValues.mail,
+                };
+                var expiryDate = new Date();
+                expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+                res.cookie("userId", user.dataValues.id, {
+                    expires: expiryDate,
+                    secure: false,
+                    httpOnly: false,
+                    path: "/",
+                });
+                res.cookie("token", accessToken, {
+                    expires: expiryDate,
+                    secure: false,
+                    httpOnly: false,
+                    path: "/",
+                });
                 return res.status(200).json({
                     user: userLogin,
                     accessToken: accessToken,
@@ -56,20 +80,26 @@ const All = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const Logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.clearCookie('userId', {
+    let userId = req.body.userId;
+    const updateUser = yield User.update({ status: false }, {
+        where: {
+            id: userId,
+        },
+    });
+    res.clearCookie("userId", {
         maxAge: 0,
         secure: false,
         httpOnly: false,
-        path: '/',
-        expires: new Date(0)
+        path: "/",
+        expires: new Date(0),
     });
-    res.clearCookie('token', {
+    res.clearCookie("token", {
         maxAge: 0,
         secure: false,
         httpOnly: false,
-        path: '/',
-        expires: new Date(0)
+        path: "/",
+        expires: new Date(0),
     });
-    res.json({ result: 'test' });
+    res.json({ result: "test" });
 });
 export { Login, All, Logout };

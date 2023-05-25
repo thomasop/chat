@@ -1,26 +1,22 @@
 import React, { useState } from "react";
-import HandleClickBtn from "../HandleClickBtn";
-import { RootState } from "../../../utils/store";
+import HandleClickBtn from "../handler/HandleClickBtn";
+import { RootState } from "../../../../utils/store";
 import { useSelector } from "react-redux";
+import GetUsers from "../fetch/GetUsers";
+import { User } from "../../../../types/data/DataType";
 
-
-interface Result {
-  id: number;
-  firstname: string;
-  lastname: string;
-  mail: string;
-  password: string;
-  status: boolean;
-}
-
-const Search: React.FC = () => {
-  const { user } = useSelector((state: RootState) => state.user);  
-  const {userId} = useSelector((state: RootState) => state.login)
+/**
+ * React component - Display search bar
+ * @return {JSX.Element}
+ */
+const Search = (): JSX.Element => {
+  const { user } = useSelector((state: RootState) => state.user);
+  const { userId } = useSelector((state: RootState) => state.login);
   const [displayDiv, setDisplayDiv] = useState<string>("none");
   const [inputValue, setInputValue] = useState<string>("");
   const [displayErrorDiv, setDisplayErrorDiv] = useState<string>("none");
   const [errorStr, setErrorStr] = useState<string>("");
-  const [searchDatas, setSearchDatas] = useState<null | Result[] | undefined>(
+  const [searchDatas, setSearchDatas] = useState<null | User[] | undefined>(
     null
   );
   const divStyle = {
@@ -30,14 +26,14 @@ const Search: React.FC = () => {
     display: displayErrorDiv,
   };
   const handleChange = (e: any) => {
-    setInputValue(e.target.value)
+    setInputValue(e.target.value);
     let search = user?.filter((p) => {
       return e.target.value !== ""
         ? p.firstname.includes(e.target.value) ||
             p.lastname.includes(e.target.value)
         : null;
     });
-    search?.map((r: any, index: any) => {
+    search?.map((r: User, index: number) => {
       if (r.id === Number(userId)) {
         search?.splice(index, 1);
       }
@@ -60,6 +56,7 @@ const Search: React.FC = () => {
   };
   return (
     <>
+      <GetUsers />
       <div className="search">
         <input
           className="search__input"
@@ -76,7 +73,7 @@ const Search: React.FC = () => {
               return (
                 <React.Fragment key={index}>
                   <HandleClickBtn
-                    data={searchData}
+                    searchData={searchData}
                     setDisplayDiv={setDisplayDiv}
                     setInputValue={setInputValue}
                   />

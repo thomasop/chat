@@ -1,7 +1,8 @@
-import app from "./app.js"
+import app from "./app.js";
+import { server } from "./app.js";
 
-let port = 8080
+let port = 8080;
 
-app.listen(port, () => {
-    console.log("App listen on port 8080")
-})
+server.listen(port, () => {
+  console.log("App listen on port 8080");
+});

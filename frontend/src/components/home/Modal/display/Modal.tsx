@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import AddConversation from "../fetch/AddConversation";
+import { useState } from "react";
+import AddConversation from "../../Conversation/fetch/AddConversation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../utils/store";
+import { RootState } from "../../../../utils/store";
 
-const Modal: React.FC = () => {
-  const dispatch = useDispatch()
-  const {userNameAdd} = useSelector((state: RootState) => state.modal)
+/**
+ * React component - Display modal
+ * @return {JSX.Element}
+ */
+const Modal = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const { userNameAdd } = useSelector((state: RootState) => state.modal);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [inputErrorPassword, setInputErrorPassword] = useState<string>("");
   const [displayAddConversation, setDisplayAddConversation] =
@@ -21,8 +25,13 @@ const Modal: React.FC = () => {
           onClick={() => {
             dispatch({
               type: "modal/modalDisplay",
-              payload: {display: "none", userNameAdd: "", userIdAdd: "", opacity: "1"}
-            })
+              payload: {
+                display: "none",
+                userNameAdd: "",
+                userIdAdd: "",
+                opacity: "1",
+              },
+            });
           }}
         >
           <div className="burgercloseline">
@@ -62,6 +71,7 @@ const Modal: React.FC = () => {
         <AddConversation
           content={inputMessage}
           setInputErrorPassword={setInputErrorPassword}
+          setDisplayAddConversation={setDisplayAddConversation}
         />
       )}
     </>

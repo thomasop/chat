@@ -3,29 +3,38 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../utils/store";
 
-const Logout: React.FC = () => {
+/**
+ * React component - Logout user
+ * @return {null}
+ */
+const Logout = (): null => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-  const token = useSelector((state: RootState) => state.login.token);
+  const dispatch = useDispatch();
+  const { token, userId } = useSelector((state: RootState) => state.login);
   useEffect(() => {
     const logout = async () => {
       const response = await fetch("http://localhost:8080/user/logout", {
         headers: {
           authorization: "Bearer " + token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
+        method: "post",
+        body: JSON.stringify({
+          userId: userId,
+        }),
       });
       await response.json();
       dispatch({
         type: "login/loginUser",
-        payload: { token: "", userId: "", userLog: false}
-      }
-      );
+        payload: { token: "", userId: "", userLog: false },
+      });
       document.cookie = "userId =; Max-Age=0";
       document.cookie = "token =; Max-Age=0";
-      navigate('/')
+      navigate("/");
     };
     logout();
-  }, [dispatch, navigate, token]);
+  }, [dispatch, navigate, token, userId]);
   return null;
 };
 

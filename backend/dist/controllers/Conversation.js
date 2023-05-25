@@ -13,31 +13,72 @@ import { validationResult } from "express-validator";
 const Add = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const error = validationResult(req);
     if (!error.isEmpty()) {
-        return res.status(400).json({ error: 'probleme' });
+        return res.status(400).json({ error: "probleme" });
     }
     let content = req.body.content;
     let userId = req.body.userId;
     let userIdAdd = req.body.userIdAdd;
-    const addConversation = yield Conversation.create({ last_message_id: null, userOneId: userId, userTwoId: userIdAdd });
+    const addConversation = yield Conversation.create({
+        last_message_id: null,
+        userOneId: userId,
+        userTwoId: userIdAdd,
+    });
     if (addConversation === null) {
-        return res.status(400).json({ error: 'La conversation n\'a pas été créé' });
+        return res.status(400).json({ error: "La conversation n'a pas été créé" });
     }
     else {
-        const addMessage = yield Message.create({ content: content, conversationId: addConversation.dataValues.id, userId: userId });
+        const addMessage = yield Message.create({
+            content: content,
+            conversationId: addConversation.dataValues.id,
+            userId: userId,
+        });
         if (addMessage === null) {
-            return res.status(400).json({ error: 'Le message n\'a pas été créé' });
+            return res.status(400).json({ error: "Le message n'a pas été créé" });
         }
         else {
             const editConversation = yield Conversation.update({ last_message_id: addMessage.dataValues.id }, {
                 where: {
-                    id: addConversation.dataValues.id
-                }
+                    id: addConversation.dataValues.id,
+                },
+                returning: true,
             });
             if (editConversation === null) {
-                return res.status(400).json({ error: 'La conversation n\'a pas été modifié' });
+                return res
+                    .status(400)
+                    .json({ error: "La conversation n'a pas été modifié" });
             }
             else {
-                res.status(200).json({ result: 'La conversation à été créé' });
+                const oneConversation = yield Conversation.findOne({
+                    where: {
+                        id: addConversation.dataValues.id,
+                    },
+                    include: [
+                        {
+                            model: User,
+                            as: "userOneAsId",
+                        },
+                        {
+                            model: User,
+                            as: "userTwoAsId",
+                        },
+                        {
+                            model: Message,
+                            include: [
+                                {
+                                    model: User,
+                                },
+                            ],
+                        },
+                    ],
+                });
+                if (oneConversation === null) {
+                    return res
+                        .status(400)
+                        .json({ error: "La conversation n'a pas été trouvé" });
+                }
+                else {
+                    res.status(200).json({ result: oneConversation });
+                }
             }
         }
     }
@@ -49,26 +90,26 @@ const All = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (/[0-9]+/.test(req.params.id)) {
         const getAllConversation = yield Conversation.findAll({
             where: {
-                [Op.or]: [
-                    { userOneId: req.params.id },
-                    { userTwoId: req.params.id },
-                ]
+                [Op.or]: [{ userOneId: req.params.id }, { userTwoId: req.params.id }],
             },
-            include: [{
+            include: [
+                {
                     model: User,
-                    as: 'userOneAsId'
+                    as: "userOneAsId",
                 },
                 {
                     model: User,
-                    as: 'userTwoAsId'
+                    as: "userTwoAsId",
                 },
                 {
                     model: Message,
-                    include: [{
-                            model: User
-                        }]
-                }
-            ]
+                    include: [
+                        {
+                            model: User,
+                        },
+                    ],
+                },
+            ],
         });
         if (getAllConversation === null) {
             return res.status(400).json({ error: "error" });

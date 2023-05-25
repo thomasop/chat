@@ -16,6 +16,11 @@ html, body {
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 600px) {
+  #root {
+    height: 100%;
+  }
+}
 .loginForm {
   display: flex;
   flex-direction: column;
@@ -153,13 +158,32 @@ html, body {
   padding: 10px;
   border: 2px solid aqua;
 }
+.getConversations__div--color {
+  cursor: pointer;
+  background-color: blue;
+  padding: 10px;
+  border: 2px solid aqua;
+}
 .getConversations__h1 {
   color: black;
   margin: 0;
   text-align: left;
 }
+.getConversations__h1--color {
+  color: white;
+  margin: 0;
+  text-align: left;
+}
 .getConversations__content {
   color: black;
+  margin: 0;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.getConversations__content--color {
+  color: white;
   margin: 0;
   text-align: left;
   text-overflow: ellipsis;
@@ -172,9 +196,37 @@ html, body {
   text-align: left;
   font-style: italic;
 }
+.getConversations__date--div {
+  display: flex;
+}
+.getConversations__date--color {
+  color: white;
+  margin: 0;
+  text-align: left;
+  font-style: italic;
+}
 .getConversations__p {
   text-align: left;
   margin: 0;
+}
+.getConversations__p--color {
+  color: white;
+  text-align: left;
+  margin: 0;
+}
+.getConversations__new {
+  background-color: blue;
+  padding: 2px 4px;
+  margin-left: 10px;
+  color: white;
+  border-radius: 5px;
+}
+.getConversations__new--color {
+  background-color: white;
+  color: black;
+  padding: 2px 4px;
+  margin-left: 10px;
+  border-radius: 5px;
 }
 
 .getAll {
@@ -198,12 +250,41 @@ html, body {
   border-radius: 10px;
   padding-bottom: 50px;
   width: 560px;
-  overflow-y: scroll;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.getMessage__writing {
+  margin: 0;
+  color: white;
+}
+.getMessage__new {
+  background-color: blue;
+  padding: 3px 5px;
+  color: white;
+  border-radius: 5px;
+}
+.getMessage__none {
+  text-align: center;
+  justify-content: center;
 }
 .getMessage__h1 {
   position: fixed;
-  left: 54%;
   margin-top: 0;
+  top: 10px;
+}
+.getMessage__btn {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 37px;
+  padding: 10px 0px;
+  border-radius: 41%;
+  border: none;
+  background-color: blue;
+  bottom: 66px;
 }
 .getMessage__div--h3 {
   text-align: center;
@@ -270,6 +351,63 @@ html, body {
   color: white;
 }
 
+@media screen and (max-width: 600px) {
+  .getMessage {
+    margin-top: 60px;
+    display: none;
+    width: 100%;
+    padding: unset;
+  }
+  .getMessage__back {
+    position: absolute;
+    top: 67px;
+    left: 10px;
+    font-size: 20px;
+  }
+  .getMessage__h1 {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 60px;
+  }
+  .getMessage__sending {
+    width: 100%;
+    margin-bottom: unset;
+    border-radius: unset;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .getMessage__none {
+    display: none;
+  }
+  .getMessage__div--flex {
+    margin-bottom: 50px;
+    padding-top: 20px;
+  }
+  .getMessage__div--date {
+    margin: 5px 0px;
+  }
+  .getMessage__div--h3 {
+    margin: 5px 0px;
+  }
+  .getMessage__div--size {
+    width: 175px;
+    margin-left: 5px;
+  }
+  .getMessage__div--sizefloat {
+    width: 175px;
+    margin-right: 5px;
+  }
+  .getAll {
+    height: calc(100% - 43px);
+  }
+  .getAll__div {
+    width: 100%;
+    margin-left: unset;
+    border-radius: unset;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+}
 /* Login page */
 .login {
   position: absolute;
@@ -299,6 +437,34 @@ html, body {
   height: 500px;
   border-radius: 20px;
   box-shadow: 3px 3px 18px 3px aqua;
+}
+.home__flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.home__redirect {
+  text-align: center;
+}
+.home__redirectLink {
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  text-decoration: none;
+  border: none;
+}
+
+@media screen and (max-width: 600px) {
+  .home {
+    width: 100%;
+    position: unset;
+    left: unset;
+    top: unset;
+    transform: unset;
+    border-radius: unset;
+    box-shadow: unset;
+    height: 100%;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

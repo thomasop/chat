@@ -1,5 +1,5 @@
 import Jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 export default (req, res, next) => {
     var _a;
@@ -11,6 +11,6 @@ export default (req, res, next) => {
         next();
     }
     catch (error) {
-        res.status(401).json({ errors: error });
+        res.status(401).json({ status: 400, errors: error });
     }
 };

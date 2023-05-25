@@ -1,12 +1,14 @@
-import React from "react";
 import LoginForm from "../components/login/LoginForm";
 import CheckUserLog from "../components/CheckUserLog";
 import { useSelector } from "react-redux";
 import { RootState } from "../utils/store";
 
-const Login: React.FC = () => {
+/**
+ * React component - Login page
+ * @return {JSX.Element}
+ */
+const Login = (): JSX.Element => {
   const {userLog} = useSelector((state: RootState) => state.login)
-
   return (
     <>
         <CheckUserLog />

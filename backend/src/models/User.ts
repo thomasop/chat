@@ -1,34 +1,37 @@
-import { QueryTypes } from "sequelize"
-import connect from "../database/connect.js"
-import { DataType } from "sequelize-typescript"
+import { QueryTypes } from "sequelize";
+import connect from "../database/connect.js";
+import { DataType } from "sequelize-typescript";
 
-const User = connect.define('user', {
+const User = connect.define(
+  "user",
+  {
     id: {
-        type: DataType.BIGINT,
-        autoIncrement: true,
-        primaryKey: true
+      type: DataType.BIGINT,
+      autoIncrement: true,
+      primaryKey: true,
     },
     firstname: {
-        type: DataType.STRING
+      type: DataType.STRING,
     },
     lastname: {
-        type: DataType.STRING
+      type: DataType.STRING,
     },
     mail: {
-        type: DataType.STRING
+      type: DataType.STRING,
     },
     password: {
-        type: DataType.STRING
+      type: DataType.STRING,
     },
     status: {
-        type: DataType.BOOLEAN
-    }
-},{
+      type: DataType.BOOLEAN,
+    },
+  },
+  {
     freezeTableName: true,
     createdAt: false,
     updatedAt: false,
-    timestamps: false
-})
+    timestamps: false,
+  }
+);
 
-
-export default User
+export default User;
